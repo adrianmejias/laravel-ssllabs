@@ -71,8 +71,8 @@ class SslLabsWrapper implements SslLabsWrapperContract
         ?int $maxAge = null,
         bool $publish = false,
         bool $startNew = false,
-        bool $fromCache = false,
-        mixed $all = true,
+        bool $fromCache = true,
+        mixed $all = 'done',
         bool $ignoreMismatch = true
     ): bool {
         $response = $this->analyze(
@@ -91,7 +91,7 @@ class SslLabsWrapper implements SslLabsWrapperContract
             ->filter(
                 function ($value) use ($level) {
                     $endpointLevel = array_search(
-                        $value['grade'] ?? '',
+                        $value['grade'] ?? 'M',
                         $this->grades,
                         true
                     );
