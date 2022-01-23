@@ -91,7 +91,7 @@ class SslLabsWrapper implements SslLabsWrapperContract
             ->filter(
                 function ($value) use ($level) {
                     $endpointLevel = array_search(
-                        $value['grade'],
+                        $value['grade'] ?? '',
                         $this->grades,
                         true
                     );
