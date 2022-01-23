@@ -84,7 +84,7 @@ class SslLabsWrapper implements SslLabsWrapperContract
             $all,
             $ignoreMismatch
         );
-        $minGrade = $minGrade ?? config('ssllabs.min_grade', 'A+');
+        $minGrade = $minGrade ?? 'A+';
         $level = array_search($minGrade, $this->grades, true);
 
         return (new Collection($response['endpoints'] ?? []))

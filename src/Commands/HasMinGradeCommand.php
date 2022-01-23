@@ -16,8 +16,8 @@ class HasMinGradeCommand extends Command
      * @inheritDoc
      */
     protected $signature = 'ssllabs:has-min-grade
-            {host? : The hostname}
-            {grade? : The ssllabs grade level (A+|A-|A|B|C|D|E|F|T|M)}';
+            {host : The hostname}
+            {grade? : The ssllabs minimum grade level (A+|A-|A|B|C|D|E|F|T|M)}';
 
     /**
      * @inheritDoc
@@ -29,23 +29,15 @@ class HasMinGradeCommand extends Command
      */
     public function handle(): ?int
     {
-        $host = $this->argument('host') ?? str_replace(
-            ['http://', 'https://'],
-            '',
-            config(
-                'app.url',
-                'https://www.ssllabs.com'
-            )
-        );
-        $minGrade = $this->argument('grade') ?? config(
-            'ssllabs.min_grade',
-            'A+'
-        );
+        /** @var string */
+        $host = $this->argument('host') ?? '';
 
-        $hasMinGrade = SslLabsFacade::hasMinGrade($host, $minGrade) === true
-            ? 'yes' : 'no';
+        /** @var string */
+        $minGrade = $this->argument('grade') ?? 'A+';
 
-        if ($hasMinGrade === 'yes') {
+        $hasMinGrade = SslLabsFacade::hasMinGrade($host, $minGrade);
+
+        if ($hasMinGrade === true) {
             $this->info(
                 'The host, ' . $host . ', has a minimum grade level of ' . $minGrade . '.'
             );

@@ -14,14 +14,4 @@ return [
 
     'version' => env('SSLLABS_VERSION', 'v3'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | SSL Labs Quality Checker Minimum Grade
-    |--------------------------------------------------------------------------
-    |
-    | Supported: "A+", "A-", "A", "B", "C", "D", "E", "F", "T", "M"
-    */
-
-    'min_grade' => env('SSLLABS_MIN_GRADE', 'A+'),
-
 ];

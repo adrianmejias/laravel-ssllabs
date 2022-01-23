@@ -2,4 +2,7 @@ coverage:
   round: nearest
   precision: 0
 
+ignore:
+  - "src/Commands"
+
 comment: off
