@@ -46,9 +46,14 @@ $info = [
 - `getRootCertsRaw(?int $trustStore = null)` Retrieve root certificates.
 - `getStatusCodes()` Retrieve known status codes.
 - `getEndpointData(string $host, string $s, bool $fromCache = false)` Retrieve detailed endpoint information.
-- `isMinGrade(string $host, ?string $minGrade = 'A+', int $maxAge, bool $publish = false, bool $ignoreMismatch = false)` Invoke assessment and check progress in order to check minimum grade.
+- `hasMinGrade(string $host, ?string $minGrade = 'A+', int $maxAge, bool $publish = false, bool $ignoreMismatch = false)` Invoke assessment and check progress in order to check minimum grade.
 - `analyze(string $host, ?int $maxAge = null, bool $publish = false, bool $startNew = false, bool $fromCache = false, ?string $all = null, bool $ignoreMismatch = false)` Invoke assessment and check progress.
 - `info()` Check SSL Labs availability.
+
+### Artisan Commands
+
+- `ssllabs:quality-test {host} {grade}` - Get SSL Labs quality test results
+- `ssllabs:has-min-quality {host} {grade}` - Check if the host has a minimum grade level
 
 ## Testing
 

@@ -2,6 +2,8 @@
 
 namespace AdrianMejias\SslLabs;
 
+use AdrianMejias\SslLabs\Contracts\SslLabsWrapperContract;
+use AdrianMejias\SslLabs\Exceptions\SslLabsException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -10,7 +12,7 @@ use Illuminate\Support\Facades\Http;
  *
  * @package AdrianMejias\SslLabs
  */
-class SslLabsWrapper implements SslLabsContract
+class SslLabsWrapper implements SslLabsWrapperContract
 {
     /**
      * Grades.
@@ -63,7 +65,7 @@ class SslLabsWrapper implements SslLabsContract
     /**
      * @inheritDoc
      */
-    public function isMinGrade(
+    public function hasMinGrade(
         string $host,
         ?string $minGrade = 'A+',
         ?int $maxAge = null,

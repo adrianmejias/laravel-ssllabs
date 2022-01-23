@@ -1,6 +1,6 @@
 <?php
 
-namespace AdrianMejias\SslLabs;
+namespace AdrianMejias\SslLabs\Exceptions;
 
 use Exception;
 use Throwable;
@@ -8,7 +8,7 @@ use Throwable;
 /**
  * SSL Labs Exception
  *
- * @package AdrianMejias\SslLabs
+ * @package AdrianMejias\SslLabs\Exceptions
  */
 class SslLabsException extends Exception
 {

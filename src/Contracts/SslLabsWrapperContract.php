@@ -1,13 +1,15 @@
 <?php
 
-namespace AdrianMejias\SslLabs;
+namespace AdrianMejias\SslLabs\Contracts;
+
+use AdrianMejias\SslLabs\Exceptions\SslLabsException;
 
 /**
  * SSL Labs Contract
  *
  * @package AdrianMejias\SslLabs
  */
-interface SslLabsContract
+interface SslLabsWrapperContract
 {
     /**
      * Get a list of SSL Lab grade levels.
@@ -59,7 +61,7 @@ interface SslLabsContract
     );
 
     /**
-     * Invoke assessment and check progress.
+     * Invoke assessment and check progress in order to check minimum grade.
      *
      * This call is used to initiate an assessment, or to retrieve the status of an assessment in progress or in the cache. It will return a single Host object on success. The Endpoint object embedded in the Host object will provide partial endpoint results. Please note that assessments of individual endpoints can fail even when the overall assessment is successful (e.g., one server might be down). At this time, you can determine the success of an endpoint assessment by checking the statusMessage field; it should contain "Ready".
      *
@@ -76,7 +78,7 @@ interface SslLabsContract
      * @return bool
      * @throws SslLabsException
      */
-    public function isMinGrade(
+    public function hasMinGrade(
         string $host,
         ?string $minGrade = 'A+',
         ?int $maxAge = null,

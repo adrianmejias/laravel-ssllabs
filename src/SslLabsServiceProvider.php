@@ -2,6 +2,8 @@
 
 namespace AdrianMejias\SslLabs;
 
+use AdrianMejias\SslLabs\Commands\HasMinGradeCommand;
+use AdrianMejias\SslLabs\Commands\QualityTestCommand;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -22,6 +24,11 @@ class SslLabsServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/ssllabs.php' => config_path('ssllabs.php'),
             ], 'ssllabs');
+
+            $this->commands([
+                QualityTestCommand::class,
+                HasMinGradeCommand::class,
+            ]);
         }
     }
 
