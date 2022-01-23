@@ -17,8 +17,8 @@ class QualityTestCommand extends Command
      * @inheritDoc
      */
     protected $signature = 'ssllabs:quality-test
-            {host? : The hostname}
-            {grade? : The ssllabs grade level (A+|A-|A|B|C|D|E|F|T|M}';
+            {host : The hostname}
+            {grade? : The ssllabs minimum grade level (A+|A-|A|B|C|D|E|F|T|M}';
 
     /**
      * @inheritDoc
@@ -30,21 +30,13 @@ class QualityTestCommand extends Command
      */
     public function handle(): ?int
     {
-        $host = $this->argument('host') ?? str_replace(
-            ['http://', 'https://'],
-            '',
-            config(
-                'app.url',
-                'https://www.ssllabs.com'
-            )
-        );
-        $minGrade = $this->argument('grade') ?? config(
-            'ssllabs.min_grade',
-            'A+'
-        );
+        /** @var string */
+        $host = $this->argument('host') ?? '';
 
-        $hasMinGrade = SslLabsFacade::hasMinGrade($host, $minGrade) === true
-            ? 'yes' : 'no';
+        /** @var string */
+        $minGrade = $this->argument('grade') ?? 'A+';
+
+        $hasMinGrade = SslLabsFacade::hasMinGrade($host, $minGrade);
         $response = SslLabsFacade::analyze(
             $host,
             null,
@@ -54,39 +46,45 @@ class QualityTestCommand extends Command
             'on',
             true
         );
-        $headers = [
-            'Grade',
-            'IP Address',
-            'Detailed Report',
-        ];
+        $endpointCount = count($response['endpoints'] ?? []);
 
         $this->info('Host: ' . $host);
+
         $this->info('Minimum Grade: ' . $minGrade);
-        $this->info('Endpoints: ' . count($response['endpoints'] ?? []));
+
+        $this->info('Endpoints: ' . $endpointCount);
 
         $rows = (new Collection($response['endpoints']))->map(
             function ($value) use ($host) {
                 $grade = strtoupper($value['grade'] ?? '');
                 $ipAddress = $value['ipAddress'] ?? '';
+                $detailedUrl = 'https://www.ssllabs.com/ssltest/analyze.html?d=' . $host . '&s=' . $ipAddress;
 
                 return [
                     $grade,
                     $ipAddress,
-                    'https://www.ssllabs.com/ssltest/analyze.html?d=' . $host .
-                        '&s=' . $ipAddress,
+                    $detailedUrl,
                 ];
             }
         )->toArray();
 
-        if ($hasMinGrade === 'yes') {
-            $this->table($headers, $rows);
+        if ($hasMinGrade === true) {
+            $this->table([
+                'Grade',
+                'IP Address',
+                'Detailed Report',
+            ], $rows);
 
             return 1;
         }
 
         $this->error('Your SSL certificate is not the grading you expected.');
 
-        $this->table($headers, $rows);
+        $this->table([
+            'Grade',
+            'IP Address',
+            'Detailed Report',
+        ], $rows);
 
         return 0;
     }
