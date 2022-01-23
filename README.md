@@ -6,6 +6,8 @@
 
 ## Installation
 
+Warning: Not for use in production at the moment.
+
 This version supports PHP 8.0. You can install the package via composer:
 
 `composer require adrianmejias/laravel-ssllabs`
