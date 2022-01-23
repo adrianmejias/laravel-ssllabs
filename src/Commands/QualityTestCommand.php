@@ -41,9 +41,9 @@ class QualityTestCommand extends Command
             $host,
             null,
             false,
+            true,
             false,
-            false,
-            'on',
+            'done',
             true
         );
         $endpointCount = count($response['endpoints'] ?? []);
