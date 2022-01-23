@@ -41,8 +41,8 @@ class QualityTestCommand extends Command
             $host,
             null,
             false,
-            true,
             false,
+            true,
             'done',
             true
         );
