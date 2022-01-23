@@ -2,7 +2,7 @@
 
 namespace AdrianMejias\SslLabs\Tests\Feature;
 
-use AdrianMejias\SslLabs\SslLabsException;
+use AdrianMejias\SslLabs\Exceptions\SslLabsException;
 use AdrianMejias\SslLabs\SslLabsFacade;
 
 it('should handle exception', function () {
@@ -90,7 +90,7 @@ it('should handle getEndpointData with getipbyhostname')
     ->grade->toBeString()
     ->grade->toEqual('A+');
 
-it('should handle isMinGrade')->expect(fn () => SslLabsFacade::isMinGrade(
+it('should handle hasMinGrade')->expect(fn () => SslLabsFacade::hasMinGrade(
     'www.ssllabs.com',
     'A+',
 ))

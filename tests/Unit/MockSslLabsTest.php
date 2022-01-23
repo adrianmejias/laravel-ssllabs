@@ -112,14 +112,14 @@ it('should handle mock analyze', function () {
     expect($result)->toBeArray();
 });
 
-it('should handle mock isMinGrade', function () {
-    SslLabsFacade::shouldReceive('isMinGrade')->once()
+it('should handle mock hasMinGrade', function () {
+    SslLabsFacade::shouldReceive('hasMinGrade')->once()
         ->with(
             'www.ssllabs.com',
             'A+'
         )->andReturn(true);
 
-    $result = SslLabsFacade::isMinGrade(
+    $result = SslLabsFacade::hasMinGrade(
         'www.ssllabs.com',
         'A+'
     );
