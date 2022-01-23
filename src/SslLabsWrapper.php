@@ -13,6 +13,21 @@ use Illuminate\Support\Facades\Http;
 class SslLabsWrapper implements SslLabsContract
 {
     /**
+     * Grades.
+     *
+     * @var array|string[]
+     */
+    public array $grades = ['A+', 'A-', 'A', 'B', 'C', 'D', 'E', 'F', 'T', 'M'];
+
+    /**
+     * @inheritDoc
+     */
+    public function getGrades(): array
+    {
+        return $this->grades;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRootCertsRaw(?int $trustStore = null)
@@ -48,21 +63,40 @@ class SslLabsWrapper implements SslLabsContract
     /**
      * @inheritDoc
      */
-    public function analyzeCached(
+    public function isMinGrade(
         string $host,
-        int $maxAge,
+        ?string $minGrade = 'A+',
+        ?int $maxAge = null,
         bool $publish = false,
-        bool $ignoreMismatch = false
-    ) {
-        return $this->analyze(
+        bool $startNew = false,
+        bool $fromCache = false,
+        mixed $all = true,
+        bool $ignoreMismatch = true
+    ): bool {
+        $response = $this->analyze(
             $host,
             $maxAge,
             $publish,
-            false,
-            true,
-            'done',
+            $startNew,
+            $fromCache,
+            $all,
             $ignoreMismatch
         );
+        $minGrade = $minGrade ?? config('ssllabs.min_grade', 'A+');
+        $level = array_search($minGrade, $this->grades, true);
+
+        return (new Collection($response['endpoints'] ?? []))
+            ->filter(
+                function ($value) use ($level) {
+                    $endpointLevel = array_search(
+                        $value['grade'],
+                        $this->grades,
+                        true
+                    );
+
+                    return $endpointLevel > $level;
+                }
+            )->count() <= 0;
     }
 
     /**
@@ -74,7 +108,7 @@ class SslLabsWrapper implements SslLabsContract
         bool $publish = false,
         bool $startNew = false,
         bool $fromCache = false,
-        ?string $all = null,
+        mixed $all = null,
         bool $ignoreMismatch = false
     ) {
         return $this->request('/analyze', [

@@ -4,6 +4,15 @@ namespace AdrianMejias\SslLabs\Tests\Unit;
 
 use AdrianMejias\SslLabs\SslLabsFacade;
 
+it('should handle mock getGrades', function () {
+    SslLabsFacade::shouldReceive('getGrades')->once()
+        ->andReturn(['A+', 'A-', 'A', 'B', 'C', 'D', 'E', 'F', 'T', 'M']);
+
+    $result = SslLabsFacade::getGrades();
+    expect($result)->toBeArray()
+        ->toEqual(['A+', 'A-', 'A', 'B', 'C', 'D', 'E', 'F', 'T', 'M']);
+});
+
 it('should handle mock parseParams', function () {
     $params = [
         'foo' => 'bar',
@@ -103,18 +112,18 @@ it('should handle mock analyze', function () {
     expect($result)->toBeArray();
 });
 
-it('should handle mock analyzeCached', function () {
-    SslLabsFacade::shouldReceive('analyzeCached')->once()
+it('should handle mock isMinGrade', function () {
+    SslLabsFacade::shouldReceive('isMinGrade')->once()
         ->with(
             'www.ssllabs.com',
-            1,
-        )->andReturn([]);
+            'A+'
+        )->andReturn(true);
 
-    $result = SslLabsFacade::analyzeCached(
+    $result = SslLabsFacade::isMinGrade(
         'www.ssllabs.com',
-        1,
+        'A+'
     );
-    expect($result)->toBeArray();
+    expect($result)->toBeBool()->toBeTrue();
 });
 
 it('should handle mock info', function () {
