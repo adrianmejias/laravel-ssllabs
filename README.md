@@ -14,6 +14,42 @@ To create the `config/ssllabs.php` configuration file:
 
 `php artisan vendor:publish --tag=ssllabs`
 
+## Usage
+
+### Example
+
+```php
+<?php
+
+use AdrianMejias\SslLabs\SslLabsFacade as SslLabs;
+// or use SslLabs;
+
+$info = SslLabs::info();
+```
+
+Expected Output:
+```php
+$info = [
+    'engineVersion' => '2.1.10',
+    'criteriaVersion' => '2009q',
+    'maxAssessments' => 25,
+    'currentAssessments' => 0,
+    'newAssessmentCoolOff' => 1000,
+    'messages' => [
+        'This assessment service is provided free of charge by Qualys SSL Labs, subject to our terms and conditions: https://www.ssllabs.com/about/terms.html',
+    ],
+];
+```
+
+### Api Requests
+
+- `getRootCertsRaw(?int $trustStore = null)` Retrieve root certificates.
+- `getStatusCodes()` Retrieve known status codes.
+- `getEndpointData(string $host, string $s, bool $fromCache = false)` Retrieve detailed endpoint information.
+- `analyzeCached(string $host, int $maxAge, bool $publish = false, bool $ignoreMismatch = false)` Invoke assessment and check progress from cache.
+- `analyze(string $host, ?int $maxAge = null, bool $publish = false, bool $startNew = false, bool $fromCache = false, ?string $all = null, bool $ignoreMismatch = false)` Invoke assessment and check progress.
+- `info()` Check SSL Labs availability.
+
 ## Testing
 
 `composer test`

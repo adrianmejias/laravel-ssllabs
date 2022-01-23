@@ -2,7 +2,16 @@
 
 namespace AdrianMejias\SslLabs\Tests\Feature;
 
+use AdrianMejias\SslLabs\SslLabsException;
 use AdrianMejias\SslLabs\SslLabsFacade;
+
+it('should handle exception', function () {
+    throw new SslLabsException('Something happened.');
+})->throws(SslLabsException::class);
+
+it('should handle request exception', function () {
+    SslLabsFacade::request('/noexist');
+})->throws(SslLabsException::class);
 
 it('should handle parseParams')->expect(fn () => SslLabsFacade::parseParams([
     'foo' => 'bar',
