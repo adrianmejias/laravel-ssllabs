@@ -13,6 +13,10 @@ it('should handle request exception', function () {
     SslLabsFacade::request('/noexist');
 })->throws(SslLabsException::class);
 
+it('should handle getGrades')->expect(fn () => SslLabsFacade::getGrades())
+    ->toBeArray()
+    ->toEqual(['A+', 'A-', 'A', 'B', 'C', 'D', 'E', 'F', 'T', 'M']);
+
 it('should handle parseParams')->expect(fn () => SslLabsFacade::parseParams([
     'foo' => 'bar',
     'bar' => true,
@@ -86,6 +90,13 @@ it('should handle getEndpointData with getipbyhostname')
     ->grade->toBeString()
     ->grade->toEqual('A+');
 
+it('should handle isMinGrade')->expect(fn () => SslLabsFacade::isMinGrade(
+    'www.ssllabs.com',
+    'A+',
+))
+    ->toBeBool()
+    ->toBeTrue();
+
 it('should handle analyze')->expect(fn () => SslLabsFacade::analyze(
     'www.ssllabs.com',
     null,
@@ -94,27 +105,6 @@ it('should handle analyze')->expect(fn () => SslLabsFacade::analyze(
     true,
     null,
     false
-))
-    ->toBeArray()
-    ->toHaveKeys([
-        'host',
-        'port',
-        'protocol',
-        'status',
-        'engineVersion',
-    ])
-    ->host->toBeString()
-    ->host->toEqual('www.ssllabs.com')
-    ->port->toBeInt()
-    ->port->toEqual(443)
-    ->protocol->toBeString()
-    ->protocol->toEqual('http')
-    ->status->toBeString()
-    ->engineVersion->toBeString();
-
-it('should handle analyze cached')->expect(fn () => SslLabsFacade::analyzeCached(
-    'www.ssllabs.com',
-    1,
 ))
     ->toBeArray()
     ->toHaveKeys([

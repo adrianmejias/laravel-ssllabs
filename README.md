@@ -46,7 +46,7 @@ $info = [
 - `getRootCertsRaw(?int $trustStore = null)` Retrieve root certificates.
 - `getStatusCodes()` Retrieve known status codes.
 - `getEndpointData(string $host, string $s, bool $fromCache = false)` Retrieve detailed endpoint information.
-- `analyzeCached(string $host, int $maxAge, bool $publish = false, bool $ignoreMismatch = false)` Invoke assessment and check progress from cache.
+- `isMinGrade(string $host, ?string $minGrade = 'A+', int $maxAge, bool $publish = false, bool $ignoreMismatch = false)` Invoke assessment and check progress in order to check minimum grade.
 - `analyze(string $host, ?int $maxAge = null, bool $publish = false, bool $startNew = false, bool $fromCache = false, ?string $all = null, bool $ignoreMismatch = false)` Invoke assessment and check progress.
 - `info()` Check SSL Labs availability.
 
