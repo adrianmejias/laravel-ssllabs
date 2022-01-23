@@ -60,9 +60,12 @@ $info = [
 - [x] Add unit tests
 - [x] Add documentation for open source contributations
 - [x] Add GitHub Action for unit tests
-- [ ] Add more unit test coverages
-- [ ] Add more documentation to README.md
-- [ ] Add API listing to README.md
+- [x] Add more unit test coverages
+- [x] Add more documentation to README.md
+- [x] Add API listing to README.md
+- [ ] Add command
+- [ ] Add schedule from command
+- [ ] Add schedule email
 
 ## Contributing
 
